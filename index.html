@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>30D — Seu Sistema Pessoal com IA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+:root{--bg:#050505;--navy:#071A33;--blue:#0066FF;--cyan:#00A3FF;--white:#fff;--gray:#B8C2CC;--line:rgba(0,163,255,.22);--grad:linear-gradient(135deg,#0066FF,#00A3FF);
+--h:'Space Grotesk',system-ui,sans-serif;--b:'Inter',system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--white);font:16px/1.6 var(--b);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.hero{position:relative;overflow:hidden;padding:72px 0 48px;background:radial-gradient(900px 520px at 85% 110%,rgba(0,163,255,.55),transparent 60%),radial-gradient(700px 420px at 100% 100%,rgba(0,102,255,.6),transparent 65%),linear-gradient(180deg,#050505 0%,#071A33 140%)}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,163,255,.35) 1px,transparent 1.5px);background-size:28px 28px;-webkit-mask-image:linear-gradient(120deg,transparent 35%,#000);mask-image:linear-gradient(120deg,transparent 35%,#000)}
+.hero .wrap{position:relative}
+.big{font:700 clamp(96px,26vw,232px)/.86 var(--h);letter-spacing:-.05em;margin:0;background:linear-gradient(100deg,#fff 10%,var(--cyan) 55%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font:500 clamp(18px,3.2vw,26px)/1.3 var(--h);margin:20px 0 6px;letter-spacing:.01em}
+.lead{color:var(--gray);max-width:520px;margin:0 0 28px}
+.btn{background:var(--grad);border:0;border-radius:10px;padding:14px 26px;font-weight:600;color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--gray)}
+.strip{display:grid;grid-template-columns:repeat(30,1fr);gap:3px;margin-top:44px;max-width:640px}
+.strip i{height:6px;border-radius:2px;background:rgba(184,194,204,.2)}
+.strip i.on{background:var(--grad)}
+.meta{color:var(--gray);font-size:14px;margin-top:10px}
+section{padding:56px 0}
+h2{font:700 clamp(26px,5vw,38px)/1.15 var(--h);letter-spacing:-.02em;margin:0 0 8px}
+.hint{color:var(--gray);margin:0 0 28px;max-width:600px}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.ph{background:var(--navy);border:1px solid var(--line);border-radius:14px;padding:18px}
+.ph b{display:block;font:700 34px/1 var(--h);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ph strong{display:block;margin-top:10px}
+.ph span{color:var(--gray);font-size:14px}
+.grp{margin:34px 0 12px;font:500 19px var(--h)}
+.grp small{color:var(--gray);font:400 14px var(--b);margin-left:8px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.card{position:relative;text-align:left;background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:16px 16px 16px 20px;overflow:hidden;min-height:96px}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad)}
+.card.soon{background:rgba(7,26,51,.45);border-style:dashed}
+.card.soon::before{opacity:.35}
+.card:not(.soon):hover{border-color:var(--cyan)}
+.card .n{font:700 22px var(--h);color:var(--cyan)}
+.card .t{font-weight:600;display:block}
+.card .s{color:var(--gray);font-size:13px;display:block;margin-top:2px}
+.card .ok{position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:50%;background:var(--grad);display:none;place-items:center;font-size:12px}
+.card.done .ok{display:grid}
+#day{background:linear-gradient(180deg,var(--navy),var(--bg));border-top:1px solid var(--line)}
+.dnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:22px}
+.bar{height:6px;border-radius:3px;background:rgba(184,194,204,.2);overflow:hidden;margin-bottom:26px}
+.bar div{height:100%;background:var(--grad);transition:width .35s}
+.dt{font:700 clamp(30px,6vw,48px)/1.1 var(--h);letter-spacing:-.02em;margin:0}
+.win{color:var(--cyan);margin:8px 0 26px;font-weight:500}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:12px}
+.box{background:rgba(5,5,5,.55);border:1px solid var(--line);border-radius:12px;padding:18px}
+.box h3{margin:0 0 8px;font:600 15px var(--h);color:var(--cyan)}
+.box p{margin:0 0 8px}.box p:last-child{margin:0}
+.box ul{margin:0;padding-left:18px}
+.prompt{border-color:var(--cyan);background:var(--navy);margin:12px 0}
+.prompt pre{white-space:pre-wrap;word-break:break-word;font:14px/1.6 var(--b);margin:0 0 14px;color:#e8eef5}
+.chk{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
+.chk label{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:rgba(5,5,5,.55)}
+.chk input{appearance:none;width:20px;height:20px;border:2px solid var(--cyan);border-radius:5px;margin:0;display:grid;place-items:center;flex:none}
+.chk input:checked{background:var(--grad);border-color:transparent}
+.chk input:checked::after{content:"✓";font-size:13px}
+.soonbox{text-align:center;padding:40px 20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--gray);font-weight:500}
+.scroll{overflow-x:auto}
+footer{padding:36px 0 56px;color:var(--gray);font-size:14px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1 class="big">30D</h1>
+    <p class="sub">Seu sistema pessoal com IA</p>
+    <p class="lead">Organize sua vida, sua rotina e seus objetivos em 30 dias usando inteligência artificial. Um passo por dia, cerca de 20 a 30 minutos.</p>
+    <button class="btn" id="start">Começar o Dia 1</button>
+    <div class="strip" id="strip" aria-hidden="true"></div>
+    <p class="meta" id="meta"></p>
+  </div>
+</header>
+
+<section id="metodo"><div class="wrap">
+  <h2>O método M.O.T.O.R.</h2>
+  <p class="hint">Cinco fases encadeadas. Cada dia usa o resultado do anterior, e a IA entra depois que você produz seus próprios dados.</p>
+  <div class="phases" id="phases"></div>
+</div></section>
+
+<section id="dias" style="padding-top:8px"><div class="wrap">
+  <h2>Os 30 dias</h2>
+  <p class="hint">Toque em um dia para abrir a missão. Seu progresso fica salvo neste navegador.</p>
+  <div id="grid"></div>
+</div></section>
+
+<section id="day" hidden><div class="wrap" id="dayin"></div></section>
+
+<footer><div class="wrap">30D é uma ferramenta de organização, produtividade e desenvolvimento pessoal. Não substitui acompanhamento psicológico ou médico, e a pontuação serve só para acompanhar seu avanço.</div></footer>
+
+<script>
+var PH=[
+ {k:'M',n:'Mapear',q:'Onde estou hoje?',d:'Dias 1 a 5',e:'Diagnóstico completo'},
+ {k:'O',n:'Orientar',q:'Para onde quero ir?',d:'Dias 6 a 10',e:'3 objetivos e plano do mês'},
+ {k:'T',n:'Treinar rotina',q:'Como isso cabe no meu dia?',d:'Dias 11 a 17',e:'Rotina, hábitos, foco, estudo e dinheiro'},
+ {k:'O',n:'Otimizar com IA',q:'Como acelero e melhoro?',d:'Dias 18 a 24',e:'Perfil de contexto e prompts pessoais'},
+ {k:'R',n:'Revisar e renovar',q:'O que funcionou e como continuo?',d:'Dias 25 a 30',e:'Sistema definitivo e plano de 90 dias'}
+];
+var D=[
+[1,'Começar','Descubra onde seu tempo está indo.',0],[2,'Radiografar','As áreas da sua vida.',0],[3,'Vazamentos','Mapa de distrações e gatilhos.',0],[4,'Energia','Quando você rende e quando não rende.',0],[5,'Essencial','O que realmente importa para você.',0],
+[6,'Visão','Onde você quer estar em 90 dias.',1],[7,'Escolher','Seus 3 objetivos.',1],[8,'Medir','Objetivos viram metas mensuráveis.',1],[9,'Cortar','O que eliminar, adiar ou delegar.',1],[10,'Plano do mês','Metas distribuídas pelas 4 semanas.',1],
+[11,'Base','Rotina mínima de manhã e noite.',2],[12,'Semana ideal','Blocos de tempo e lista de tarefas.',2],[13,'Hábitos','3 hábitos âncora.',2],[14,'Travas','Entenda sua procrastinação.',2],[15,'Foco','Sessões de foco e ambiente digital.',2],[16,'Estudo','Plano de estudo e revisão.',2],[17,'Dinheiro','Controle financeiro básico.',2],
+[18,'Conversar','Como pedir bem para a IA.',3],[19,'Contexto','Seu perfil pessoal para qualquer IA.',3],[20,'Planejador','IA organizando sua semana.',3],[21,'Estudos e carreira','IA como tutora e mentora de plano.',3],[22,'Decidir','IA para decisões importantes.',3],[23,'Criar','IA para escrita e brainstorming.',3],[24,'Analisar','IA revisando sua rotina.',3],
+[25,'Auditar','O que funcionou e o que não.',4],[26,'Medir de novo','Seu painel e métricas pessoais.',4],[27,'Corrigir','Plano B e prevenção de recaída.',4],[28,'Consolidar','Seu sistema semanal definitivo.',4],[29,'Comparar','Avaliação final, antes e depois.',4],[30,'Continuar','Plano dos próximos 90 dias.',4]
+];
+var C={
+1:{o:'Reconstituir seu dia anterior em blocos de tempo e ver, com dados, como você usa suas horas.',
+w:'Quase todo mundo estima mal o próprio tempo. Sem um retrato real, qualquer planejamento parte de um dia imaginário. Hoje você constrói a base de todo o sistema.',
+t:'Reconstitua o dia de ontem, das 6h às 23h, em blocos de 1 a 2 horas.',
+e:'<p>Para cada bloco, anote <b>o que fiz</b>, <b>categoria</b> e <b>energia (1 a 5)</b>.</p><p><b>E</b> Essencial (estudo, trabalho, saúde) · <b>N</b> Necessário (transporte, refeições, casa) · <b>L</b> Lazer escolhido · <b>P</b> Tempo que escapou</p><div class="scroll"><table><tr><th>Horário</th><th>O que fiz</th><th>Categoria</th><th>Energia</th></tr><tr><td>06h–08h</td><td></td><td></td><td></td></tr><tr><td>08h–10h</td><td></td><td></td><td></td></tr><tr><td>…</td><td></td><td></td><td></td></tr></table></div><p>No fim, some as horas de cada categoria.</p>',
+p:'Atue como analista de uso do tempo. Vou colar a reconstituição do meu dia de ontem, em blocos, com categoria (E = essencial, N = necessário, L = lazer, P = tempo que escapou) e nível de energia de 1 a 5.\n\nSua tarefa:\n1. Calcule o total de horas por categoria.\n2. Aponte os 3 blocos em que mais perdi tempo e o que eles têm em comum (horário, energia, local).\n3. Aponte os 2 blocos mais produtivos e o que os favoreceu.\n4. Faça 3 perguntas que me ajudem a entender melhor meu padrão.\n\nNão julgue, não dê conselhos genéricos e use apenas os dados que eu fornecer. Se faltar informação, pergunte antes.\n\nMeus dados:\n[cole aqui a tabela]',
+a:'Coloque um alarme a cada 2 horas até a noite com a mensagem "O que fiz nas últimas 2h?" e anote em uma linha cada vez.',
+r:'Qual categoria teve mais horas do que você imaginava?',v:'Você vai saber para onde seu tempo foi ontem.'},
+2:{o:'Ter uma visão geral das principais áreas da sua vida e escolher onde concentrar energia nos próximos 30 dias.',
+w:'Ontem você olhou para o tempo. Hoje olha para a vida como um todo. Sem essa visão, é comum otimizar a área errada.',
+t:'Dar duas notas de 0 a 10 para cada área: satisfação (como estou hoje) e importância (o quanto importa para mim agora).',
+e:'<div class="scroll"><table><tr><th>Área</th><th>Satisfação</th><th>Importância</th><th>Distância</th></tr><tr><td>Estudos / Carreira</td><td></td><td></td><td></td></tr><tr><td>Finanças</td><td></td><td></td><td></td></tr><tr><td>Saúde física</td><td></td><td></td><td></td></tr><tr><td>Sono e energia</td><td></td><td></td><td></td></tr><tr><td>Relacionamentos</td><td></td><td></td><td></td></tr><tr><td>Lazer e descanso</td><td></td><td></td><td></td></tr><tr><td>Organização</td><td></td><td></td><td></td></tr><tr><td>Crescimento pessoal</td><td></td><td></td><td></td></tr></table></div><p>Distância = importância menos satisfação. Circule as 2 áreas com maior distância. É uma ferramenta de reflexão, não um diagnóstico.</p>',
+p:'Atue como um facilitador de planejamento pessoal. Vou compartilhar minhas notas de satisfação e importância (0 a 10) em 8 áreas da vida.\n\nSua tarefa:\n1. Ordene as áreas pela distância entre importância e satisfação.\n2. Mostre se há áreas conectadas (ex.: sono afetando estudos).\n3. Me faça 4 perguntas que me ajudem a decidir quais 2 áreas priorizar por 30 dias.\n4. Não faça diagnóstico psicológico nem sugira tratamentos. Foque em organização e planejamento.\n\nMinhas notas:\n[cole a tabela preenchida]',
+a:'Escreva as 2 áreas circuladas em um papel ou nota do celular e deixe em um lugar visível.',
+r:'Alguma nota te surpreendeu? Por quê?',v:'Você vai ver quais áreas da vida pedem atenção.'},
+3:{o:'Identificar o que tira sua atenção, em que situações isso acontece e o que dispara o comportamento.',
+w:'Distração raramente é falta de disciplina. Costuma ter gatilho: celular ao alcance, horário de cansaço, tarefa grande demais. Mapeando o gatilho, você muda o ambiente em vez de brigar consigo.',
+t:'Listar suas 5 principais distrações e o contexto de cada uma, usando o registro do Dia 1 e o de hoje.',
+e:'<p>Se quiser um número real, abra o tempo de uso do celular (Bem-estar digital no Android, Tempo de Uso no iPhone) e veja seus 3 apps mais usados na última semana.</p><div class="scroll"><table><tr><th>Distração</th><th>Quando</th><th>Onde</th><th>Gatilho</th><th>Tempo/dia</th></tr><tr><td>1</td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td></tr></table></div><p>Gatilhos comuns: tédio, cansaço, notificação, tarefa difícil.</p>',
+p:'Atue como consultor de organização de ambiente e foco. Vou listar minhas principais distrações, com quando, onde, gatilho e tempo estimado.\n\nSua tarefa:\n1. Agrupe as distrações por tipo de gatilho.\n2. Diga qual dessas distrações provavelmente custa mais tempo no total.\n3. Sugira 3 ajustes pequenos no ambiente ou nas configurações do celular/computador que eu possa fazer hoje, cada um em menos de 10 minutos.\n4. Não sugira eliminar tudo de uma vez. Foque em mudanças realistas.\n\nMinhas distrações:\n[cole a tabela preenchida]',
+a:'Faça uma mudança de ambiente agora: desative as notificações de 3 apps ou mova o app mais tentador para a última tela.',
+r:'Em que situação você mais "escapa" da tarefa que precisava fazer?',v:'Você vai nomear suas 3 maiores distrações.'},
+4:{o:'Descobrir em que horários você tem mais energia e concentração, para colocar as tarefas importantes nessas janelas.',
+w:'Um dia bem planejado que ignora sua energia falha do mesmo jeito. Você já tem a coluna de energia do Dia 1. Hoje cruzamos com mais dados.',
+t:'Registrar energia e foco em três momentos de hoje e comparar com o Dia 1.',
+e:'<div class="scroll"><table><tr><th>Momento</th><th>Energia</th><th>Foco</th><th>O que veio antes</th></tr><tr><td>Manhã (~10h)</td><td></td><td></td><td></td></tr><tr><td>Tarde (~15h)</td><td></td><td></td><td></td></tr><tr><td>Noite (~20h)</td><td></td><td></td><td></td></tr></table></div><ul><li>Meu melhor horário de foco parece ser: ____</li><li>Meu pior horário parece ser: ____</li><li>O que costuma vir antes dos meus melhores horários: ____</li></ul><p>Dois dias de dados mostram tendência, não conclusão. Se a falta de energia for intensa e constante, vale conversar com um profissional de saúde.</p>',
+p:'Atue como analista de rotina pessoal. Vou compartilhar meus registros de energia e foco de 2 dias, com o que aconteceu antes de cada momento.\n\nSua tarefa:\n1. Identifique padrões prováveis (horários, sono, alimentação, uso de tela).\n2. Diga o que ainda é incerto por causa do pouco volume de dados.\n3. Sugira uma janela provável de foco para tarefas difíceis e outra para tarefas leves.\n4. Proponha 2 pequenos testes para confirmar isso nos próximos 3 dias.\n\nMeus registros:\n[cole os dados dos Dias 1 e 4]',
+a:'Escolha a tarefa mais importante de amanhã e reserve na agenda um bloco de 45 minutos dentro da sua janela de melhor foco.',
+r:'O que você faz hoje que costuma atrapalhar seus melhores horários?',v:'Você vai saber qual é sua janela de melhor foco.'},
+5:{o:'Separar o que você quer do que acha que "deveria" querer e consolidar tudo em um Diagnóstico de uma página.',
+w:'Metas herdadas de expectativas alheias costumam ser abandonadas rápido. Antes de definir objetivos (Fase O), você precisa saber o que importa para você.',
+t:'Escrever uma lista livre de 10 coisas que você quer mudar, criar ou conquistar e marcar cada uma como "Meu" (eu quero) ou "De fora" (esperam de mim).',
+e:'<p><b>Parte 1.</b> Lista das 10 vontades: para cada uma, anote se é Meu ou De fora e a área da vida (Dia 2).</p><p><b>Parte 2.</b> Diagnóstico em uma página:</p><ul><li>3 principais achados dos Dias 1 a 4</li><li>Onde o tempo vaza</li><li>2 áreas prioritárias (Dia 2)</li><li>3 maiores distrações e gatilhos (Dia 3)</li><li>Minha janela de foco (Dia 4)</li><li>3 objetivos candidatos, escolhidos entre as vontades marcadas Meu</li></ul>',
+p:'Atue como coach de planejamento, sem fazer diagnóstico psicológico. Vou colar minha lista de 10 vontades (marcadas como "meu" ou "de fora") e meu Diagnóstico em uma página.\n\nSua tarefa:\n1. Agrupe as vontades em no máximo 4 temas.\n2. Mostre quais temas se conectam com as áreas prioritárias e com meus padrões de tempo e energia.\n3. Faça 5 perguntas para me ajudar a separar o que quero do que esperam de mim.\n4. Sugira 3 objetivos candidatos para os próximos 90 dias, cada um em uma frase. Eu decido no Dia 7.\n\nMeus dados:\n[cole a lista e o diagnóstico]',
+a:'Salve o Diagnóstico em um único arquivo com o nome "Diagnóstico 30D". Você vai usá-lo no Dia 25.',
+r:'Se ninguém fosse cobrar, qual desses objetivos você ainda faria?',v:'Você vai fechar o diagnóstico e ter seus objetivos candidatos.'},
+6:{o:'Escrever, em linguagem concreta, como você quer que sua vida esteja daqui a 90 dias nas áreas que escolheu.',
+w:'Objetivo vago não vira plano. Uma visão descrita em detalhes cotidianos dá um alvo que você consegue medir e ajustar.',
+t:'Descreva um dia comum daqui a 90 dias, em 8 a 10 linhas, focando nas 2 áreas prioritárias do Dia 2.',
+e:'<ul><li>Em 90 dias, eu quero estar: ____</li><li>3 sinais que dá para observar de que cheguei lá (fatos, não sentimentos): ____</li><li>O que precisa continuar igual na minha vida: ____</li><li>O que não vou aceitar sacrificar para chegar lá: ____</li></ul>',
+p:'Atue como facilitador de planejamento. Vou colar minha visão de 90 dias.\n\nSua tarefa:\n1. Reescreva a visão em frases concretas e verificáveis.\n2. Aponte o que parece irrealista para 90 dias e sugira uma versão mais viável.\n3. Diga quais partes dependem de fatores fora do meu controle.\n4. Faça 3 perguntas para eu refinar a visão.\n\nMinha visão:\n[cole aqui]',
+a:'Copie a versão final da visão para uma nota fixada no celular.',
+r:'Qual detalhe dessa visão mais te motivou a escrever?',v:'Você vai ter uma visão de 90 dias escrita com clareza.'},
+7:{o:'Escolher no máximo 3 objetivos para os próximos 90 dias e fazer a revisão da Semana 1.',
+w:'Quem persegue muitos objetivos ao mesmo tempo costuma avançar pouco em todos. Escolher é o que dá foco ao sistema.',
+t:'Dê nota de 1 a 5 aos seus objetivos candidatos (Dia 5) e escolha os 3 melhores.',
+e:'<p><b>Parte 1.</b> Para cada candidato, dê nota de 1 a 5 em: Impacto, Urgência, Energia que tenho para ele e Viabilidade em 90 dias. Some e escolha os 3 maiores totais (no máximo 1 objetivo muito grande).</p><p><b>Parte 2. Revisão da Semana 1:</b></p><ul><li>O que fiz bem?</li><li>O que não funcionou?</li><li>O que aprendi?</li><li>O que vou melhorar na Semana 2?</li></ul>',
+p:'Atue como consultor de priorização. Vou colar meus objetivos candidatos com as notas de impacto, urgência, energia e viabilidade, e minha revisão da Semana 1.\n\nSua tarefa:\n1. Confirme se a soma das notas sustenta a escolha dos 3 melhores.\n2. Aponte conflitos entre eles (tempo, energia, dinheiro).\n3. Diga o que cada objetivo exigiria por semana, em horas.\n4. Não decida por mim: apresente prós e contras.\n\nMeus dados:\n[cole aqui]',
+a:'Escreva os 3 objetivos no formato "Até [data], eu vou [resultado]".',
+r:'Qual objetivo você quase escolheu por pressão de fora e por quê?',v:'Você vai ter 3 objetivos escolhidos.'},
+8:{o:'Transformar cada objetivo em uma meta mensurável, com número, prazo e ação semanal.',
+w:'Meta sem medida não mostra progresso. Com um indicador semanal você sabe se está no caminho ou precisa ajustar.',
+t:'Reescreva cada objetivo em uma meta com número e prazo.',
+e:'<p>Para cada objetivo, preencha:</p><ul><li>Meta final (número + prazo)</li><li>Ponto de partida hoje</li><li>Ação semanal (o que vou fazer toda semana)</li><li>Indicador semanal (como vou medir)</li></ul><p>Exemplo: "Ler 2 livros até o Dia 30" vira "20 páginas por dia em 5 dias por semana".</p>',
+p:'Atue como consultor de metas. Vou colar meus 3 objetivos.\n\nPara cada um, transforme em uma meta com:\n1. resultado mensurável e prazo;\n2. ação semanal realista dentro de 20 a 30 minutos por dia;\n3. indicador semanal simples de acompanhar;\n4. sinal de alerta de que a meta está irreal.\n\nSe faltar dado (como ponto de partida), pergunte antes.\n\nMeus objetivos:\n[cole aqui]',
+a:'Registre o ponto de partida de cada meta (o número de hoje).',
+r:'Qual meta ainda parece vaga? O que falta para ela ficar clara?',v:'Você vai ter 3 metas com número e prazo.'},
+9:{o:'Liberar tempo e energia identificando o que pausar, reduzir ou cortar.',
+w:'Você só cria espaço para o novo se tirar algo do lugar. Sem cortes, os objetivos viram mais uma obrigação em cima das anteriores.',
+t:'Liste seus compromissos, tarefas e hábitos atuais e classifique cada um.',
+e:'<ul><li>Liste até 15 itens (aulas extras, grupos, séries, tarefas recorrentes, assinaturas).</li><li>Classifique: <b>Manter</b>, <b>Reduzir</b>, <b>Pausar por 21 dias</b>, <b>Cortar</b> ou <b>Delegar</b>.</li><li>Critério: contribui para um dos 3 objetivos ou é realmente necessário?</li><li>Escolha 2 itens para pausar ou reduzir agora.</li></ul>',
+p:'Atue como consultor de prioridades. Vou colar minha lista de compromissos e meus 3 objetivos.\n\nSua tarefa:\n1. Classifique cada item em manter, reduzir, pausar, cortar ou delegar, justificando em uma frase.\n2. Aponte os itens que provavelmente mais consomem tempo.\n3. Sugira 2 cortes com menor custo e como comunicá-los com educação, quando envolverem outras pessoas.\n4. Não sugira cortar saúde básica, sono ou obrigações essenciais.\n\nMinha lista e meus objetivos:\n[cole aqui]',
+a:'Faça 1 corte hoje: cancele uma assinatura, saia de um grupo ou remova um compromisso da agenda.',
+r:'O que te dá mais receio de cortar e por quê?',v:'Você vai liberar espaço na sua semana.'},
+10:{o:'Distribuir suas metas pelas semanas 2, 3 e 4, com no máximo 3 prioridades por semana.',
+w:'Um plano mensal transforma metas em compromissos semanais. É a ponte entre a Fase O (direção) e a Fase T (rotina).',
+t:'Monte o plano das próximas 3 semanas com um marco por objetivo em cada uma.',
+e:'<ul><li><b>Semana 2:</b> 3 prioridades e o marco de cada objetivo</li><li><b>Semana 3:</b> 3 prioridades e o marco de cada objetivo</li><li><b>Semana 4:</b> 3 prioridades e o marco de cada objetivo</li><li>Reserve 1 bloco de folga por semana para imprevistos.</li></ul>',
+p:'Atue como planejador mensal. Vou colar minhas 3 metas, minha janela de foco (Dia 4), o que decidi cortar (Dia 9) e meu tempo disponível por dia.\n\nSua tarefa:\n1. Distribua marcos nas semanas 2, 3 e 4, no máximo 3 prioridades por semana.\n2. Sinalize semanas que parecem sobrecarregadas.\n3. Sugira onde posso colocar folgas.\n4. Formato: tabela por semana.\n\nMeus dados:\n[cole aqui]',
+a:'Agende na agenda os blocos de foco da Semana 2, na sua melhor janela.',
+r:'Qual semana do plano parece mais arriscada e como você vai se proteger?',v:'Você vai ter o plano do mês pronto e terminar a Fase Orientar.'},
+11:{o:'Montar uma rotina mínima de manhã e de noite que você consiga cumprir até nos dias ruins.',w:'A rotina-base é a fundação do sistema: reduz decisões e protege seus horários mais importantes.',t:'Escolha 3 ações de manhã e 3 de noite, cada uma com no máximo 10 minutos.',e:'<ul><li>Horário alvo de acordar e de começar a desacelerar à noite</li><li>3 ações de manhã e 3 de noite, em ordem</li><li>Uma ação que protege sua janela de foco (Dia 4)</li></ul>',p:'Atue como planejador de rotina. Vou informar meus horários, compromissos e minha janela de foco. Monte uma rotina mínima de manhã e de noite, com 3 ações de até 10 minutos cada, ordem sugerida e uma versão ainda menor para dias corridos.\n\nMeus dados:\n[cole aqui]',a:'Faça hoje à noite a rotina de noite completa.',r:'Qual ação da rotina você tem mais dúvida se vai manter?',v:'Você vai ter uma rotina mínima definida.'},
+12:{o:'Desenhar sua semana ideal em blocos de tempo e criar uma lista única de tarefas.',w:'Tarefa sem horário costuma ficar para depois. Blocos transformam intenção em compromisso.',t:'Distribua blocos de foco, estudo, exercício, lazer e folga na semana.',e:'<ul><li>Bloco de foco na melhor janela, 5 dias por semana</li><li>Blocos fixos para estudo, exercício e descanso</li><li>Lista única de tarefas com 3 colunas: Hoje, Esta semana, Depois</li></ul>',p:'Atue como planejador semanal. Vou informar meus compromissos fixos, minha janela de foco e minhas prioridades da semana. Monte uma semana ideal em blocos, deixando 1 bloco de folga por dia e sem passar de 3 prioridades por dia.\n\nMeus dados:\n[cole aqui]',a:'Coloque os blocos da próxima semana na agenda.',r:'Qual bloco você tem mais chance de perder e como vai protegê-lo?',v:'Você vai ter sua semana ideal na agenda.'},
+13:{o:'Escolher 3 hábitos âncora ligados às suas metas e desenhá-los de forma simples.',w:'Hábitos pequenos e bem encaixados na rotina sobrevivem melhor que grandes mudanças de uma vez.',t:'Para cada hábito, defina gatilho, versão mínima e recompensa.',e:'<ul><li>Gatilho: "Depois de [algo que já faço], eu vou [hábito]"</li><li>Versão mínima de 2 minutos</li><li>Recompensa imediata, como marcar no painel</li></ul>',p:'Atue como designer de hábitos. Vou informar minhas 3 metas e minha rotina. Sugira 3 hábitos pequenos, cada um com gatilho ligado a algo que já faço, versão mínima de 2 minutos e forma de acompanhar.\n\nMeus dados:\n[cole aqui]',a:'Faça hoje a versão mínima do hábito 1.',r:'Qual gatilho é o mais confiável na sua rotina?',v:'Você vai ter 3 hábitos âncora desenhados.'},
+14:{o:'Entender por que você adia certas tarefas e fazer a Revisão da Semana 2.',w:'Procrastinar costuma ter causa: tarefa grande, confusa, chata ou que gera medo de errar. Cada causa tem uma saída diferente.',t:'Liste 3 tarefas que você adiou e o primeiro passo de 5 minutos de cada.',e:'<ul><li>Tarefa, causa (grande, confusa, entediante, medo de errar) e primeiro passo de 5 minutos</li><li><b>Revisão da Semana 2:</b> o que fiz bem, o que não funcionou, o que aprendi, o que melhorar</li></ul>',p:'Atue como consultor de foco. Vou listar 3 tarefas que estou adiando. Para cada uma, aponte a causa provável, quebre em passos de 5 a 15 minutos e sugira como começar hoje. Depois, com minha revisão da semana, sugira 2 ajustes.\n\nMeus dados:\n[cole aqui]',a:'Faça agora o primeiro passo de 5 minutos de uma das tarefas.',r:'Qual causa aparece mais nas suas tarefas adiadas?',v:'Você vai destravar uma tarefa adiada.'},
+15:{o:'Criar um protocolo de foco e organizar seu ambiente digital.',w:'Foco profundo depende de ambiente: um celular ao alcance vence a boa intenção.',t:'Faça 2 sessões de foco hoje e organize sua caixa de entrada e suas pastas em 15 minutos.',e:'<ul><li>Formato: 25 min de foco e 5 de pausa, ou 50 e 10</li><li>1 tarefa por sessão, celular longe, abas fechadas</li><li>15 minutos para limpar e-mails, arquivos e área de trabalho</li></ul>',p:'Atue como especialista em foco. Vou informar minha rotina, minhas distrações principais (Dia 3) e o tipo de tarefa. Monte um protocolo de foco com preparação, sessão, pausa e o que fazer quando me distrair.\n\nMeus dados:\n[cole aqui]',a:'Faça a primeira sessão de foco agora.',r:'O que mais interrompeu suas sessões?',v:'Você vai completar 2 sessões de foco.'},
+16:{o:'Montar um plano de estudo com revisão.',w:'Estudar sem plano cria a ilusão de avanço. Revisar ao longo do tempo ajuda a fixar o que foi visto.',t:'Liste assuntos, prazos e dificuldade e distribua sessões na semana.',e:'<ul><li>Assuntos, prazo e dificuldade de cada um</li><li>Sessões na semana, nos blocos de foco</li><li>Revisão do conteúdo após 1 dia, 1 semana e 1 mês</li></ul>',p:'Atue como tutor de estudos. Vou informar meus assuntos, prazos, tempo disponível e dificuldade. Monte um plano semanal com sessões e datas de revisão, e sugira uma forma de testar meu aprendizado.\n\nMeus dados:\n[cole aqui]',a:'Faça uma sessão de estudo de 25 minutos e anote 3 pontos aprendidos.',r:'Qual assunto você tem evitado?',v:'Você vai ter um plano de estudo semanal.'},
+17:{o:'Ter uma visão básica das suas finanças e uma meta financeira simples.',w:'Sem enxergar entradas e saídas, qualquer meta financeira é chute. Este é um controle básico, não consultoria financeira.',t:'Liste sua renda, seus gastos fixos e variáveis dos últimos 30 dias.',e:'<ul><li>Renda mensal</li><li>Gastos fixos e variáveis, por categoria</li><li>1 meta financeira simples, com valor e prazo</li></ul>',p:'Atue como organizador de finanças pessoais básicas, sem recomendar investimentos. Vou colar minha renda e meus gastos do último mês. Agrupe por categoria, mostre para onde vai a maior parte e sugira 2 ajustes realistas para atingir minha meta.\n\nMeus dados:\n[cole aqui, sem números de conta ou senhas]',a:'Escolha um dia da semana para registrar seus gastos.',r:'Qual gasto te surpreendeu?',v:'Você vai enxergar para onde vai seu dinheiro.'},
+18:{o:'Aprender a pedir bem para a IA usando uma estrutura simples.',w:'A qualidade da resposta depende da qualidade do pedido. Uma estrutura evita respostas genéricas.',t:'Reescreva um pedido vago usando papel, contexto, tarefa, formato e restrições.',e:'<ul><li><b>Papel:</b> quem a IA deve ser</li><li><b>Contexto:</b> sua situação</li><li><b>Tarefa:</b> o que fazer</li><li><b>Formato:</b> tabela, lista, passos</li><li><b>Restrições:</b> tempo, tom, o que evitar</li></ul>',p:'Vou colar um pedido que costumo fazer para IA. Melhore-o usando a estrutura papel, contexto, tarefa, formato e restrições. Mostre o pedido melhorado e as perguntas que faltam responder.\n\nMeu pedido:\n[cole aqui]',a:'Use a estrutura em um pedido real hoje.',r:'O que mudou na resposta quando o pedido ficou mais claro?',v:'Você vai escrever pedidos melhores para a IA.'},
+19:{o:'Criar seu perfil de contexto para usar em qualquer conversa com IA.',w:'Com um perfil pronto, você não explica sua vida toda vez e recebe respostas mais adequadas.',t:'Escreva um perfil de cerca de 10 linhas com seus objetivos, sua rotina e seu estilo preferido de resposta.',e:'<ul><li>Objetivos dos 90 dias e prioridades</li><li>Rotina, janela de foco e limitações</li><li>Como quer as respostas: curtas, em passos, diretas</li></ul><p>Não inclua senhas, documentos ou dados que você não queira compartilhar.</p>',p:'Vou descrever meus objetivos, minha rotina e como gosto de receber respostas. Transforme isso em um perfil de contexto de até 10 linhas, que eu possa colar no início de qualquer conversa com IA.\n\nMeus dados:\n[cole aqui]',a:'Salve o perfil em uma nota de fácil acesso.',r:'O que você percebeu de mais importante ao escrever o perfil?',v:'Você vai ter um perfil pronto para colar na IA.'},
+20:{o:'Usar a IA como planejador da sua semana.',w:'A IA organiza bem quando recebe dados reais: tarefas, horários e prioridades.',t:'Reúna suas tarefas, compromissos, horas livres e 3 prioridades e peça um plano.',e:'<ul><li>Lista de tarefas e prazos</li><li>Compromissos fixos e horas livres</li><li>Revise o plano e corte o que não cabe</li></ul>',p:'Atue como meu planejador semanal. Vou fornecer tarefas, compromissos, horários disponíveis e prioridades. Organize minha semana em blocos, respeitando minha janela de foco, no máximo 3 prioridades por dia, com folga diária. Sinalize conflitos.\n\nMeus dados:\n[cole o perfil do Dia 19 e os dados]',a:'Coloque na agenda os 3 primeiros blocos do plano.',r:'O que a IA sugeriu que você não teria pensado?',v:'Você vai ter uma semana planejada com a IA.'},
+21:{o:'Usar a IA para estudo e carreira e fazer a Revisão da Semana 3.',w:'A IA pode explicar de várias formas, criar quizzes e mapear habilidades. Confira informações importantes em fontes confiáveis.',t:'Escolha um assunto de estudo e um cargo ou área que quer alcançar.',e:'<ul><li>Peça explicação do assunto em 3 níveis</li><li>Peça um quiz de 5 perguntas</li><li>Peça um mapa de habilidades para a área desejada</li><li><b>Revisão da Semana 3:</b> o que fiz bem, o que não funcionou, o que aprendi, o que melhorar</li></ul>',p:'Atue como tutor e mentor de carreira. Meu assunto é [assunto] e meu objetivo de carreira é [área]. Explique o assunto em 3 níveis, faça um quiz de 5 perguntas e liste as habilidades da área com prioridade de aprendizado. Avise quando não tiver certeza.',a:'Faça o quiz e anote os erros.',r:'Qual habilidade da lista você pode começar a treinar esta semana?',v:'Você vai ter um plano de estudo e carreira com IA.'},
+22:{o:'Usar a IA para analisar uma decisão real.',w:'Decidir com critérios claros reduz o arrependimento. A IA ajuda a ver opções e riscos, mas a decisão é sua.',t:'Escolha uma decisão pendente e liste opções e critérios.',e:'<ul><li>Opções disponíveis</li><li>3 a 5 critérios com peso de 1 a 5</li><li>Pré-mortem: imagine que deu errado e liste o motivo</li></ul>',p:'Atue como assistente de decisão. Minha decisão é [decisão]. Opções: [opções]. Critérios e pesos: [critérios]. Compare as opções em tabela, faça um pré-mortem de cada uma e me pergunte o que falta saber. Não decida por mim.',a:'Defina a data limite para decidir.',r:'Que informação você ainda precisa para decidir?',v:'Você vai ter clareza sobre uma decisão.'},
+23:{o:'Usar a IA para escrita, comunicação e ideias.',w:'Textos difíceis e bloqueios criativos são tarefas em que a IA ajuda como rascunho e revisão.',t:'Escolha um texto real (e-mail, mensagem, currículo) e uma pergunta para brainstorm.',e:'<ul><li>Escreva sua versão primeiro</li><li>Peça revisão de clareza e tom</li><li>Peça 10 ideias para o brainstorm e escolha 2</li></ul>',p:'Atue como editor de texto. Vou colar meu rascunho. Revise clareza, tom e tamanho, mantendo meu jeito de escrever. Mostre as mudanças principais e me diga o que você não conseguiu confirmar. Depois, gere 10 ideias sobre [tema].\n\nMeu rascunho:\n[cole aqui]',a:'Envie ou publique o texto revisado.',r:'O que você mudaria no texto mesmo depois da revisão da IA?',v:'Você vai ter um texto revisado e 2 ideias novas.'},
+24:{o:'Usar a IA para analisar os dados da sua própria rotina.',w:'Você já tem registros de tempo, energia, hábitos e pontos. A IA ajuda a enxergar padrões neles.',t:'Reúna os registros dos últimos dias e peça uma análise.',e:'<ul><li>Registros de energia e foco</li><li>Hábitos cumpridos e pontos por dia</li><li>Pergunta: o que mais atrapalhou e o que mais ajudou?</li></ul>',p:'Atue como analista da minha rotina. Vou colar meus registros de hábitos, pontos, energia e foco. Aponte 3 padrões, 2 pontos fortes e 2 problemas, diferenciando o que os dados mostram do que é suposição.\n\nMeus dados:\n[cole aqui]',a:'Escolha 1 ajuste e aplique amanhã.',r:'Qual padrão você não tinha percebido?',v:'Você vai ver padrões reais na sua rotina.'},
+25:{o:'Auditar seus 24 dias e comparar com o Diagnóstico do Dia 5.',w:'Revisar mostra o que funcionou, o que foi abandonado e o que precisa mudar.',t:'Releia seu Diagnóstico e compare com hoje.',e:'<ul><li>O que melhorou desde o Dia 5</li><li>O que continua igual</li><li>O que você abandonou e por quê</li></ul>',p:'Atue como facilitador de revisão. Vou colar meu Diagnóstico do Dia 5 e meu resumo atual. Compare, destaque melhorias e pontos que não mudaram e me pergunte o que explica cada um.\n\nMeus dados:\n[cole aqui]',a:'Marque no Diagnóstico o que já mudou.',r:'Qual mudança você mais valoriza?',v:'Você vai enxergar sua evolução até aqui.'},
+26:{o:'Montar seu painel pessoal de acompanhamento.',w:'O que você mede, você ajusta. Um painel simples mostra se o sistema está funcionando.',t:'Reúna os números principais dos seus dias.',e:'<ul><li>Dias concluídos e pontos (4 por dia)</li><li>Hábitos cumpridos e sessões de foco</li><li>Energia média e progresso das 3 metas</li></ul><p>A pontuação é só acompanhamento, não uma avaliação de você.</p>',p:'Atue como analista de dados pessoais. Vou colar meus números e as linhas de partida das metas (Dia 8). Monte um painel resumo em tabela e diga em uma frase o que cada indicador sugere.\n\nMeus dados:\n[cole aqui]',a:'Salve o painel em uma planilha ou nota.',r:'Qual indicador você vai acompanhar toda semana?',v:'Você vai ter seu painel pessoal.'},
+27:{o:'Criar um plano B para dias ruins e para prevenir recaídas.',w:'Todo mundo tem dias ruins. Um plano pequeno evita que um dia perdido vire uma semana perdida.',t:'Defina sua versão mínima do dia e respostas para situações de risco.',e:'<ul><li>Versão mínima do dia: 3 itens de até 10 minutos</li><li>3 situações que costumam te derrubar</li><li>Resposta para cada uma: "Se [situação], então [ação]"</li></ul>',p:'Atue como planejador de contingência. Vou informar meus hábitos e as situações em que costumo desistir. Crie uma versão mínima do meu dia e 3 respostas "se... então..." simples de aplicar.\n\nMeus dados:\n[cole aqui]',a:'Escreva a versão mínima do dia e deixe visível.',r:'Qual dia ruim você já sabe que vem aí?',v:'Você vai ter um plano B pronto.'},
+28:{o:'Consolidar seu sistema semanal definitivo e fazer a Revisão da Semana 4.',w:'O ritual semanal é o que mantém o sistema vivo depois dos 30 dias.',t:'Defina dia e horário fixos para uma revisão semanal de 15 a 20 minutos.',e:'<ul><li>Revisar a semana: o que fiz, o que travou</li><li>Definir as 3 prioridades da próxima semana</li><li>Colocar blocos na agenda e ajustar hábitos</li><li><b>Revisão da Semana 4</b> feita agora, como primeiro ritual</li></ul>',p:'Atue como facilitador de revisão semanal. Vou colar minha semana e minhas metas. Conduza uma revisão de 15 minutos com perguntas, resuma o que aprendi e ajude a definir 3 prioridades para a próxima semana.\n\nMeus dados:\n[cole aqui]',a:'Agende o ritual semanal como compromisso recorrente.',r:'Qual horário da semana é mais sagrado para você?',v:'Você vai ter seu ritual semanal marcado.'},
+29:{o:'Fazer a avaliação final comparando o antes e o depois.',w:'Ver a evolução em números e notas reforça o que funciona e mostra o que ainda precisa de atenção.',t:'Refaça as notas das 8 áreas do Dia 2 e compare.',e:'<ul><li>Novas notas de satisfação e importância</li><li>Diferença por área</li><li>3 conquistas e 3 pendências</li></ul>',p:'Atue como facilitador de avaliação. Vou colar minhas notas do Dia 2 e as de hoje. Compare, destaque as maiores mudanças e me faça 3 perguntas sobre o que explica cada uma.\n\nMeus dados:\n[cole aqui]',a:'Escreva 3 conquistas dos 30 dias.',r:'O que você faz agora que não fazia no Dia 1?',v:'Você vai ver sua evolução em 30 dias.'},
+30:{o:'Criar seu plano para os próximos 90 dias.',w:'O desafio termina, mas o sistema continua. Um plano mantém o ritmo.',t:'Defina objetivos, metas mensais e o ritual semanal dos próximos 90 dias.',e:'<ul><li>Continuar, ajustar ou trocar cada um dos 3 objetivos</li><li>Meta por mês e indicador semanal</li><li>Revisão mensal marcada na agenda</li></ul>',p:'Atue como planejador de 90 dias. Vou colar meu painel, minhas conquistas e pendências e meus objetivos. Monte um plano de 3 meses com meta e indicador por mês, ritual semanal e revisão mensal, sem passar de 3 prioridades por semana.\n\nMeus dados:\n[cole aqui]',a:'Agende hoje a primeira revisão semanal do novo ciclo.',r:'Como você quer se sentir ao final dos próximos 90 dias?',v:'Você vai ter um plano para continuar usando o sistema.'}
+};
+var LB=['Tarefa concluída','Exercício concluído','Prompt utilizado','Ação realizada'];
+var S={};try{S=JSON.parse(localStorage.getItem('30d')||'{}')}catch(e){}
+function save(){try{localStorage.setItem('30d',JSON.stringify(S))}catch(e){}}
+function $(i){return document.getElementById(i)}
+function done(n){var a=S[n];return !!a&&a.length==4&&a.every(Boolean)}
+function pts(){var t=0;for(var k in S){t+=(S[k]||[]).filter(Boolean).length}return t}
+function stats(){
+  var d=0,i,s='';
+  for(i=1;i<=30;i++){var f=done(i);if(f)d++;s+='<i class="'+(f?'on':'')+'"></i>'}
+  $('strip').innerHTML=s;
+  $('meta').textContent=d+' de 30 dias concluídos · '+pts()+' pontos';
+  var c=document.querySelectorAll('.card[data-n]');
+  c.forEach(function(el){el.classList.toggle('done',done(+el.dataset.n))});
+}
+function build(){
+  $('phases').innerHTML=PH.map(function(p){return '<div class="ph"><b>'+p.k+'</b><strong>'+p.n+'</strong><span>'+p.q+'</span><br><span>'+p.d+'</span></div>'}).join('');
+  var h='';
+  PH.forEach(function(p,pi){
+    h+='<div class="grp">'+p.n+'<small>'+p.d+'</small></div><div class="days">';
+    D.filter(function(d){return d[3]==pi}).forEach(function(d){
+      var soon=!C[d[0]];
+      h+='<button class="card'+(soon?' soon':'')+'" data-n="'+d[0]+'" aria-label="Dia '+d[0]+': '+d[1]+'"><span class="ok">✓</span><span class="n">'+(d[0]<10?'0':'')+d[0]+'</span><span class="t">'+d[1]+'</span><span class="s">'+(soon?'Em preparação':d[2])+'</span></button>';
+    });
+    h+='</div>';
+  });
+  $('grid').innerHTML=h;
+  $('grid').addEventListener('click',function(e){var b=e.target.closest('.card');if(b)open(+b.dataset.n)});
+  stats();
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function open(n){
+  var d=D[n-1],c=C[n],ph=PH[d[3]],x='';
+  x+='<div class="dnav"><button class="btn ghost" id="prev"'+(n==1?' disabled style="opacity:.4"':'')+'>Dia anterior</button><span style="color:var(--gray)">Fase '+ph.n+'</span><button class="btn ghost" id="next"'+(n==30?' disabled style="opacity:.4"':'')+'>Próximo dia</button></div>';
+  x+='<div class="bar" role="progressbar" aria-valuenow="'+n+'" aria-valuemax="30"><div style="width:'+(n/30*100)+'%"></div></div>';
+  x+='<h2 class="dt">Dia '+(n<10?'0':'')+n+'. '+d[1]+'</h2>';
+  if(!c){
+    x+='<p class="win">'+d[2]+'</p><div class="box soonbox"><h3>Conteúdo em preparação</h3><p>A missão completa deste dia (exercício, prompt de IA, ação e reflexão) será liberada nas próximas partes do produto.</p></div>';
+  }else{
+    x+='<p class="win">Vitória do dia: '+c.v+'</p>';
+    x+='<div class="two"><div class="box"><h3>Objetivo do dia</h3><p>'+c.o+'</p></div><div class="box"><h3>Por que isso importa</h3><p>'+c.w+'</p></div></div>';
+    x+='<div class="box" style="margin-bottom:12px"><h3>Tarefa principal</h3><p>'+c.t+'</p></div>';
+    x+='<div class="box"><h3>Exercício</h3>'+c.e+'</div>';
+    x+='<div class="box prompt"><h3>Prompt de IA</h3><pre id="pp">'+esc(c.p)+'</pre><button class="btn" id="cp">Copiar prompt</button></div>';
+    x+='<div class="two"><div class="box"><h3>Ação de hoje</h3><p>'+c.a+'</p></div><div class="box"><h3>Reflexão</h3><p>'+c.r+'</p></div></div>';
+    var a=S[n]||[0,0,0,0];
+    x+='<div class="chk">'+LB.map(function(l,i){return '<label><input type="checkbox" data-i="'+i+'"'+(a[i]?' checked':'')+'>'+l+'</label>'}).join('')+'</div>';
+    x+='<p class="meta" id="dp"></p>';
+  }
+  $('dayin').innerHTML=x;$('day').hidden=false;
+  $('prev').onclick=function(){open(n-1)};$('next').onclick=function(){open(n+1)};
+  if(c){
+    $('cp').onclick=function(){
+      var t=c.p,b=this;
+      function ok(){b.textContent='Prompt copiado';setTimeout(function(){b.textContent='Copiar prompt'},1800)}
+      function fb(){var r=document.createRange();r.selectNodeContents($('pp'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');ok()}catch(e){}}
+      try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}
+    };
+    document.querySelectorAll('.chk input').forEach(function(el){
+      el.onchange=function(){
+        var a=S[n]||[0,0,0,0];a[+el.dataset.i]=el.checked?1:0;S[n]=a;save();stats();dp(n);
+      };
+    });
+    dp(n);
+  }
+  $('day').scrollIntoView({behavior:'smooth'});
+}
+function dp(n){var e=$('dp');if(e)e.textContent='Pontos de hoje: '+((S[n]||[]).filter(Boolean).length)+' de 4'+(done(n)?'. Dia concluído.':'')}
+$('start').onclick=function(){open(1)};
+build();
+</script>
+</body>
+</html>
